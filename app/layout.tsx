@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name — Aerospace Engineer",
+  title: "Deri — Aerospace Engineer",
   description:
     "Aerospace engineering student and researcher working on CFD, LBM simulations, UAV design, aerodynamics, hypersonics, and machine learning for engineering.",
   keywords: [
