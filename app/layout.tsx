@@ -17,9 +17,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Deri — Aerospace Engineer",
+  title: "Faiz Deri Rahman — Aerospace Engineer",
   description:
-    "Aerospace engineering student and researcher working on CFD, LBM simulations, UAV design, aerodynamics, hypersonics, and machine learning for engineering.",
+    "Aerospace engineering student at Bandung Institute of Technology working on CFD, LBM simulations, UAV design, and machine learning for aerodynamics.",
   keywords: [
     "aerospace engineering",
     "CFD",
@@ -28,10 +28,11 @@ export const metadata: Metadata = {
     "aerodynamics",
     "hypersonics",
     "machine learning",
+    "Bandung Institute of Technology",
   ],
-  authors: [{ name: "Your Name" }],
+  authors: [{ name: "Faiz Deri Rahman" }],
   openGraph: {
-    title: "Your Name — Aerospace Engineer",
+    title: "Faiz Deri Rahman — Aerospace Engineer",
     description: "Engineering curiosity into real systems.",
     type: "website",
   },
@@ -44,7 +45,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-[#07070e] text-slate-300 antialiased">
+      <body className="bg-[#080c14] text-slate-200 antialiased">
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />

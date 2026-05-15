@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
-  { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
   { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },
@@ -17,7 +16,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 30);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -26,10 +25,13 @@ export default function Navbar() {
   useEffect(() => setMenuOpen(false), [pathname]);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <motion.header
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-[#07070e]/85 backdrop-blur-lg border-b border-white/5"
+          ? "bg-[#080c14]/90 backdrop-blur-md border-b border-white/[0.04]"
           : "bg-transparent"
       }`}
     >
@@ -37,26 +39,22 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="font-mono text-sm text-white hover:text-cyan-400 transition-colors flex items-center gap-1"
+          className="text-sm font-semibold text-white hover:text-blue-300 transition-colors duration-200"
         >
-          <span className="text-cyan-400">{">"}</span>
-          <span>yourname</span>
-          <span className="text-cyan-400 cursor-blink">_</span>
+          Deri
         </Link>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {links.map(({ href, label }) => {
             const active =
-              href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(href.replace("/#", "/"));
+              href === "/projects" ? pathname.startsWith("/projects") : false;
             return (
               <Link
                 key={href}
                 href={href}
                 className={`text-sm transition-colors duration-200 ${
-                  active ? "text-cyan-400" : "text-slate-400 hover:text-white"
+                  active ? "text-white" : "text-slate-400 hover:text-white"
                 }`}
               >
                 {label}
@@ -64,12 +62,10 @@ export default function Navbar() {
             );
           })}
           <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm border border-cyan-400/40 text-cyan-400 px-4 py-1.5 rounded hover:bg-cyan-400/10 transition-colors"
+            href="mailto:faizderirahman@gmail.com"
+            className="text-sm px-4 py-1.5 border border-white/10 text-slate-300 rounded hover:border-blue-400/40 hover:text-white transition-all duration-200"
           >
-            Resume
+            Get in touch
           </a>
         </div>
 
@@ -104,32 +100,30 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25 }}
-            className="md:hidden bg-[#0d0d1a] border-b border-white/5 overflow-hidden"
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-[#0d1220] border-b border-white/[0.05] overflow-hidden"
           >
-            <div className="px-6 py-4">
+            <div className="px-6 py-4 space-y-1">
               {links.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
                   onClick={() => setMenuOpen(false)}
-                  className="block py-3 text-slate-300 hover:text-cyan-400 transition-colors border-b border-white/5 last:border-0"
+                  className="block py-3 text-slate-300 hover:text-white border-b border-white/[0.05] last:border-0 transition-colors"
                 >
                   {label}
                 </Link>
               ))}
               <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block mt-4 text-center border border-cyan-400/40 text-cyan-400 px-4 py-2 rounded hover:bg-cyan-400/10 transition-colors"
+                href="mailto:faizderirahman@gmail.com"
+                className="block pt-3 text-blue-400 hover:text-blue-300 transition-colors text-sm"
               >
-                Resume
+                faizderirahman@gmail.com
               </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }
