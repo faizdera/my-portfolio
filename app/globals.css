@@ -3,9 +3,6 @@
 @theme {
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-mono), "JetBrains Mono", monospace;
-  --color-bg: #080c14;
-  --color-surface: #0d1220;
-  --color-accent: #60a5fa;
 }
 
 * {
@@ -16,44 +13,91 @@
 
 html {
   scroll-behavior: smooth;
-  background: #080c14;
+  background: #050816;
 }
 
 body {
-  background: #080c14;
-  color: #e2e8f0;
+  background: #050816;
+  color: #f5f7ff;
   font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
 }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #080c14; }
+::-webkit-scrollbar-track { background: #050816; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(96, 165, 250, 0.2);
+  background: rgba(77, 141, 255, 0.25);
   border-radius: 99px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(96, 165, 250, 0.35); }
+::-webkit-scrollbar-thumb:hover { background: rgba(77, 141, 255, 0.45); }
 
-::selection { background: rgba(96, 165, 250, 0.15); color: #fff; }
+::selection { background: rgba(77, 141, 255, 0.2); color: #fff; }
+
+/* ── Scrollbar hide utility ── */
+.scrollbar-hide { scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ── Orbital ring rotation ── */
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Ambient glow pulse ── */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
 
 /* ── Gradient text ── */
 .gradient-text {
-  background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+  background: linear-gradient(135deg, #f5f7ff 0%, #4d8dff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ── Tech tag pills (project detail page) ── */
+/* ── Card hover glow (handles box-shadow which Tailwind v4 can't easily do with group-hover) ── */
+.card-glow {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-glow:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px rgba(77, 141, 255, 0.18), 0 12px 40px rgba(0, 0, 0, 0.5);
+  border-color: #4d8dff !important;
+}
+
+/* ── Field pill ── */
+.field-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid #1e2b4a;
+  background: #0b1226;
+  color: #9aa7c2;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  flex-shrink: 0;
+}
+.field-pill:hover {
+  border-color: #4d8dff;
+  color: #f5f7ff;
+  background: rgba(77, 141, 255, 0.08);
+}
+
+/* ── Tech tags ── */
 .tech-tag {
   display: inline-block;
   font-size: 0.7rem;
   font-family: var(--font-mono), monospace;
   padding: 0.15rem 0.55rem;
   border-radius: 0.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid #1e2b4a;
+  color: #9aa7c2;
+  background: #0b1226;
   letter-spacing: 0.02em;
 }
 
@@ -63,20 +107,15 @@ body {
   font-family: var(--font-mono), monospace;
   padding: 0.15rem 0.55rem;
   border-radius: 0.25rem;
-  border: 1px solid rgba(96, 165, 250, 0.25);
-  color: rgba(96, 165, 250, 0.85);
-  background: rgba(96, 165, 250, 0.05);
+  border: 1px solid rgba(77, 141, 255, 0.3);
+  color: #4d8dff;
+  background: rgba(77, 141, 255, 0.06);
   letter-spacing: 0.02em;
 }
 
-/* ── Horizontal accent rule (project detail page) ── */
+/* ── Horizontal rule accent ── */
 .hr-accent {
   border: none;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(96, 165, 250, 0.2) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent, rgba(77, 141, 255, 0.25), transparent);
 }

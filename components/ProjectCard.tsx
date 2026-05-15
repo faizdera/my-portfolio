@@ -3,21 +3,18 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Project } from "@/data/project";
 
-const STATUS_COLORS: Record<string, string> = {
-  Completed:
-    "text-emerald-400 bg-emerald-400/10 border-emerald-400/25",
-  "In Progress":
-    "text-amber-400 bg-amber-400/10 border-amber-400/25",
-  Research:
-    "text-violet-400 bg-violet-400/10 border-violet-400/25",
-};
-
 const CATEGORY_ICONS: Record<string, string> = {
   "CFD & Aerodynamics": "≋",
   "UAV Systems": "◭",
-  "Hypersonics": "⟆",
+  Hypersonics: "⟆",
   "Machine Learning": "◇",
-  "Experimental": "⊙",
+  Experimental: "⊙",
+};
+
+const STATUS_COLORS: Record<string, { color: string; bg: string; border: string }> = {
+  Completed:    { color: "#34d399", bg: "rgba(52,211,153,0.08)",  border: "rgba(52,211,153,0.25)"  },
+  "In Progress":{ color: "#fbbf24", bg: "rgba(251,191,36,0.08)",  border: "rgba(251,191,36,0.25)"  },
+  Research:     { color: "#a78bfa", bg: "rgba(167,139,250,0.08)", border: "rgba(167,139,250,0.25)" },
 };
 
 interface Props {
@@ -26,99 +23,94 @@ interface Props {
 }
 
 export default function ProjectCard({ project, index = 0 }: Props) {
-  const icon = CATEGORY_ICONS[project.category] || "◈";
+  const icon = CATEGORY_ICONS[project.category] ?? "◈";
+  const status = STATUS_COLORS[project.status];
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 24 }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.07 }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      className="flex-shrink-0"
+      style={{ width: 320 }}
     >
-      <Link href={`/projects/${project.slug}`} className="block h-full group">
-        <div className="h-full bg-[#0d0d1a] border border-white/8 rounded-xl overflow-hidden card-hover">
-          {/* Cover area */}
-          <div className="relative h-44 bg-[#111128] overflow-hidden">
-            {project.coverImage ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={project.coverImage}
-                alt={project.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            ) : (
-              <>
-                {/* Background pattern */}
-                <div className="absolute inset-0 hero-grid opacity-60" />
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/8 via-transparent to-blue-600/10" />
-                <div className="absolute inset-0 dot-grid opacity-30" />
+      <Link href={`/projects/${project.slug}`} className="block h-full">
+        <div
+          className="card-glow overflow-hidden rounded-2xl flex flex-col"
+          style={{
+            height: 380,
+            background: "#0b1226",
+            border: "1px solid #1e2b4a",
+          }}
+        >
+          {/* Image area — 55% */}
+          <div
+            className="flex-shrink-0 relative flex items-center justify-center"
+            style={{ height: 210, background: "#101a35" }}
+          >
+            {/* Subtle gradient overlay */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 50% 60%, rgba(77,141,255,0.07) 0%, transparent 70%)",
+              }}
+            />
+            <span
+              className="relative text-[5rem] leading-none select-none"
+              style={{ color: "rgba(77,141,255,0.25)" }}
+            >
+              {icon}
+            </span>
+          </div>
 
-                {/* Big icon */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-7xl text-cyan-400/25 font-light leading-none group-hover:text-cyan-400/40 transition-colors duration-500">
-                    {icon}
-                  </span>
-                </div>
-
-                {/* Category label */}
-                <div className="absolute bottom-3 left-3 right-3">
-                  <span className="font-mono text-[0.65rem] text-cyan-400/50 tracking-widest uppercase">
-                    {project.category}
-                  </span>
-                </div>
-              </>
-            )}
-
-            {/* Year badge */}
-            <div className="absolute top-3 left-3">
-              <span className="text-[0.65rem] font-mono text-white/60 bg-[#07070e]/80 backdrop-blur px-2 py-0.5 rounded border border-white/10">
-                {project.year}
+          {/* Content area */}
+          <div className="flex-1 flex flex-col justify-between p-5">
+            <div>
+              {/* Category pill */}
+              <span
+                className="inline-block text-[0.68rem] font-mono px-2.5 py-0.5 rounded-full mb-3"
+                style={{
+                  color: "#4d8dff",
+                  background: "rgba(77,141,255,0.08)",
+                  border: "1px solid rgba(77,141,255,0.2)",
+                }}
+              >
+                {project.category}
               </span>
+
+              {/* Title */}
+              <h3
+                className="font-semibold text-[0.95rem] leading-snug"
+                style={{ color: "#f5f7ff" }}
+              >
+                {project.title}
+              </h3>
             </div>
 
-            {/* Status badge */}
-            <div className="absolute top-3 right-3">
+            {/* Footer row */}
+            <div className="flex items-center justify-between mt-3">
               <span
-                className={`text-[0.65rem] font-mono px-2 py-0.5 rounded border ${
-                  STATUS_COLORS[project.status]
-                }`}
+                className="font-mono text-xs"
+                style={{ color: "#4a5878" }}
+              >
+                {project.year}
+              </span>
+              <span
+                className="text-[0.68rem] font-mono px-2 py-0.5 rounded-full"
+                style={{
+                  color: status.color,
+                  background: status.bg,
+                  border: `1px solid ${status.border}`,
+                }}
               >
                 {project.status}
               </span>
             </div>
           </div>
-
-          {/* Content */}
-          <div className="p-5">
-            <h3 className="text-white font-semibold text-base leading-snug group-hover:text-cyan-400 transition-colors mb-2">
-              {project.title}
-            </h3>
-
-            <p className="text-slate-400 text-sm leading-relaxed line-clamp-2 mb-4">
-              {project.summary}
-            </p>
-
-            {/* Tags */}
-            <div className="flex flex-wrap gap-1.5 mb-4">
-              {project.tags.slice(0, 4).map((tag) => (
-                <span key={tag} className="tech-tag">
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* Footer row */}
-            <div className="flex items-center justify-between pt-3 border-t border-white/6">
-              <span className="text-[0.7rem] text-slate-500 font-mono">
-                {project.role}
-              </span>
-              <span className="text-xs text-cyan-400/70 group-hover:text-cyan-400 transition-all group-hover:translate-x-0.5">
-                Read more →
-              </span>
-            </div>
-          </div>
         </div>
       </Link>
-    </motion.article>
+    </motion.div>
   );
 }

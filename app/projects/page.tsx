@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ProjectRow from "@/components/ProjectRow";
+import ProjectCard from "@/components/ProjectCard";
 import { projects, CATEGORIES, Category } from "@/data/project";
 
 export default function ProjectsPage() {
@@ -13,8 +13,8 @@ export default function ProjectsPage() {
       : projects.filter((p) => p.category === active);
 
   return (
-    <div className="min-h-screen pt-32 pb-24">
-      <div className="max-w-4xl mx-auto px-6">
+    <div className="min-h-screen pt-32 pb-24" style={{ background: "#050816" }}>
+      <div className="max-w-6xl mx-auto px-6">
         {/* Page header */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -22,46 +22,54 @@ export default function ProjectsPage() {
           transition={{ duration: 0.6 }}
           className="mb-14"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">
+          <p
+            className="font-mono text-[0.65rem] uppercase tracking-[0.2em] mb-3"
+            style={{ color: "#4d8dff" }}
+          >
+            Portfolio
+          </p>
+          <h1
+            className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight"
+            style={{ color: "#f5f7ff" }}
+          >
             Projects
           </h1>
-          <p className="text-slate-400 leading-relaxed max-w-lg text-[0.95rem]">
+          <p
+            className="leading-relaxed max-w-lg text-[0.95rem]"
+            style={{ color: "#9aa7c2" }}
+          >
             Engineering work — each project an honest attempt to understand
             something difficult.
           </p>
         </motion.div>
 
         {/* Filter pills */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="flex flex-wrap gap-2 mb-12">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setActive(cat)}
-              className={`px-4 py-1.5 text-xs rounded-full border transition-all duration-200 ${
+              className="px-4 py-1.5 text-xs rounded-full border transition-all duration-200 font-mono"
+              style={
                 active === cat
-                  ? "bg-blue-400/10 border-blue-400/30 text-blue-300"
-                  : "border-white/10 text-slate-500 hover:text-slate-200 hover:border-white/20"
-              }`}
+                  ? {
+                      color: "#4d8dff",
+                      background: "rgba(77,141,255,0.08)",
+                      border: "1px solid rgba(77,141,255,0.3)",
+                    }
+                  : {
+                      color: "#4a5878",
+                      background: "transparent",
+                      border: "1px solid #1e2b4a",
+                    }
+              }
             >
               {cat}
             </button>
           ))}
         </div>
 
-        {/* Column headers */}
-        <div className="flex items-baseline gap-4 pl-5 pb-3 border-b border-white/[0.08] mb-1">
-          <span className="flex-1 text-[0.7rem] font-mono text-slate-600 uppercase tracking-widest">
-            Project
-          </span>
-          <span className="hidden sm:block text-[0.7rem] font-mono text-slate-600 uppercase tracking-widest">
-            Category
-          </span>
-          <span className="text-[0.7rem] font-mono text-slate-600 uppercase tracking-widest w-12 text-right">
-            Year
-          </span>
-        </div>
-
-        {/* Project list */}
+        {/* Project grid */}
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
@@ -69,15 +77,21 @@ export default function ProjectsPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {filtered.map((project, i) => (
-              <ProjectRow key={project.id} project={project} index={i} />
+              <div key={project.id} className="flex justify-center sm:justify-start">
+                <ProjectCard project={project} index={i} />
+              </div>
             ))}
           </motion.div>
         </AnimatePresence>
 
         {filtered.length === 0 && (
-          <div className="py-16 text-center text-slate-600 font-mono text-sm">
+          <div
+            className="py-16 text-center font-mono text-sm"
+            style={{ color: "#4a5878" }}
+          >
             No projects in this category.
           </div>
         )}
