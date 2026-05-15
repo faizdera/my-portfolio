@@ -68,11 +68,23 @@ body {
 
 /* Tech tag pill */
 .tech-tag {
-  @apply text-xs font-mono px-2 py-0.5 rounded border border-white/10 text-white/40 bg-white/[0.03];
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .tech-tag-accent {
-  @apply text-xs font-mono px-2 py-0.5 rounded border border-accent/30 text-accent/70 bg-accent/5;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  color: rgba(34, 211, 238, 0.7);
+  background: rgba(34, 211, 238, 0.05);
 }
 
 /* Card glow on hover */
