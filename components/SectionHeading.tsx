@@ -2,9 +2,9 @@
 import { motion } from "framer-motion";
 
 interface Props {
-  label: string;        // small uppercase label above
-  title: string;        // main heading
-  subtitle?: string;    // optional subtitle paragraph
+  label: string;
+  title: string;
+  subtitle?: string;
   align?: "left" | "center";
 }
 
@@ -24,31 +24,28 @@ export default function SectionHeading({
       transition={{ duration: 0.55, ease: "easeOut" }}
       className={`mb-12 ${center ? "text-center" : ""}`}
     >
-      {/* Small label */}
-      <span className="font-mono text-xs tracking-widest text-cyan-400/70 uppercase">
-        {label}
-      </span>
-
-      {/* Main title */}
-      <h2
-        className={`mt-2 text-3xl sm:text-4xl font-bold leading-tight text-white ${
-          center ? "mx-auto" : ""
+      {/* Small label with accent line */}
+      <div
+        className={`flex items-center gap-3 mb-3 ${
+          center ? "justify-center" : ""
         }`}
       >
+        <span className="w-6 h-px bg-cyan-400/60" />
+        <span className="font-mono text-[0.7rem] tracking-[0.25em] text-cyan-400/80 uppercase">
+          {label}
+        </span>
+        {center && <span className="w-6 h-px bg-cyan-400/60" />}
+      </div>
+
+      {/* Main title */}
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white tracking-tight">
         {title}
       </h2>
-
-      {/* Accent line */}
-      <div
-        className={`mt-4 h-px w-16 bg-gradient-to-r from-cyan-400/60 to-transparent ${
-          center ? "mx-auto" : ""
-        }`}
-      />
 
       {/* Subtitle */}
       {subtitle && (
         <p
-          className={`mt-4 text-slate-400 text-base leading-relaxed max-w-2xl ${
+          className={`mt-5 text-slate-400 text-base leading-relaxed max-w-2xl ${
             center ? "mx-auto" : ""
           }`}
         >

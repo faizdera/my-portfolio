@@ -43,10 +43,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-[#07070e] text-slate-200 antialiased`}
-      >
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="bg-[#07070e] text-slate-300 antialiased">
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />

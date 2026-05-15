@@ -9,20 +9,21 @@ export default function ProjectsPage() {
   const [active, setActive] = useState<Category>("All");
 
   const filtered =
-    active === "All" ? projects : projects.filter((p) => p.category === active);
+    active === "All"
+      ? projects
+      : projects.filter((p) => p.category === active);
 
   return (
     <div className="min-h-screen pt-28 pb-24">
       <div className="max-w-6xl mx-auto px-6">
-        {/* Header */}
         <SectionHeading
           label="Portfolio"
           title="All Projects"
           subtitle="Every project here represents a genuine attempt to understand something difficult. Some are polished, some are still evolving."
         />
 
-        {/* Category filter */}
-        <div className="flex flex-wrap gap-2 mb-10">
+        {/* Filter pills */}
+        <div className="flex flex-wrap gap-2 mb-8">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
@@ -30,7 +31,7 @@ export default function ProjectsPage() {
               className={`px-4 py-1.5 text-xs font-mono rounded border transition-all duration-200 ${
                 active === cat
                   ? "bg-cyan-400/15 border-cyan-400/40 text-cyan-400"
-                  : "border-white/8 text-slate-400 hover:text-white hover:border-white/20"
+                  : "border-white/10 text-slate-400 hover:text-white hover:border-white/25"
               }`}
             >
               {cat}
@@ -39,8 +40,9 @@ export default function ProjectsPage() {
         </div>
 
         {/* Count */}
-        <p className="text-xs text-slate-600 font-mono mb-8">
-          {filtered.length} project{filtered.length !== 1 ? "s" : ""}
+        <p className="text-xs text-slate-600 font-mono mb-8 tracking-wide">
+          <span className="text-cyan-400/60">▸</span> {filtered.length} project
+          {filtered.length !== 1 ? "s" : ""}
           {active !== "All" ? ` in ${active}` : ""}
         </p>
 
