@@ -6,25 +6,10 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const STATUS_COLORS: Record<
-  string,
-  { color: string; bg: string; border: string }
-> = {
-  Completed: {
-    color: "#34d399",
-    bg: "rgba(52,211,153,0.08)",
-    border: "rgba(52,211,153,0.25)",
-  },
-  "In Progress": {
-    color: "#fbbf24",
-    bg: "rgba(251,191,36,0.08)",
-    border: "rgba(251,191,36,0.25)",
-  },
-  Research: {
-    color: "#a78bfa",
-    bg: "rgba(167,139,250,0.08)",
-    border: "rgba(167,139,250,0.25)",
-  },
+const STATUS_COLORS: Record<string, { color: string; bg: string; border: string }> = {
+  Completed:    { color: "#34d399", bg: "rgba(52,211,153,0.08)",  border: "rgba(52,211,153,0.25)"  },
+  "In Progress":{ color: "#fbbf24", bg: "rgba(251,191,36,0.08)",  border: "rgba(251,191,36,0.25)"  },
+  Research:     { color: "#a78bfa", bg: "rgba(167,139,250,0.08)", border: "rgba(167,139,250,0.25)" },
 };
 
 export async function generateStaticParams() {
@@ -50,21 +35,22 @@ export default async function ProjectPage({ params }: Props) {
   const status = STATUS_COLORS[project.status] ?? STATUS_COLORS["Research"];
 
   const sections = [
-    { label: "Overview", content: details.overview },
-    { label: "Motivation", content: details.motivation },
-    { label: "My Role", content: details.myRole },
-    { label: "Technical Details", content: details.technicalDetails },
-    { label: "Challenges & Lessons", content: details.challenges },
-    { label: "Results & Next Steps", content: details.results },
+    { label: "Overview",            content: details.overview },
+    { label: "Motivation",          content: details.motivation },
+    { label: "My Role",             content: details.myRole },
+    { label: "Technical Details",   content: details.technicalDetails },
+    { label: "Challenges & Lessons",content: details.challenges },
+    { label: "Results & Next Steps",content: details.results },
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-24" style={{ background: "#050816" }}>
+    <div className="min-h-screen pt-24 pb-24" style={{ background: "transparent" }}>
       {/* Back nav */}
       <div className="max-w-4xl mx-auto px-6 mb-8">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 text-xs font-mono transition-colors duration-200 text-[#4a5878] hover:text-[#f5f7ff]"
+          className="inline-flex items-center gap-2 text-xs transition-colors duration-200"
+          style={{ color: "#9AA7C2" }}
         >
           ← Back to Projects
         </Link>
@@ -72,28 +58,31 @@ export default async function ProjectPage({ params }: Props) {
 
       {/* Header */}
       <div className="max-w-4xl mx-auto px-6 mb-12">
-        <p
-          className="font-mono text-xs tracking-[0.2em] uppercase mb-4"
-          style={{ color: "rgba(77,141,255,0.6)" }}
-        >
+        <div className="section-label blue">
           {project.category} · {project.year}
-        </p>
+        </div>
         <h1
-          className="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight mb-5"
-          style={{ color: "#f5f7ff" }}
+          style={{
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            fontWeight: 500,
+            color: "#F5F7FF",
+            lineHeight: 1.1,
+            letterSpacing: "-0.02em",
+            marginBottom: 16,
+            marginTop: 8,
+          }}
         >
           {project.title}
         </h1>
-        <p
-          className="text-lg leading-relaxed max-w-2xl mb-6"
-          style={{ color: "#9aa7c2" }}
-        >
+        <p style={{ fontSize: "1.05rem", color: "#9AA7C2", lineHeight: 1.6, maxWidth: "48rem", marginBottom: 20 }}>
           {project.summary}
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <span
-            className="text-xs font-mono px-3 py-1 rounded-full"
             style={{
+              fontSize: "0.72rem",
+              padding: "4px 12px",
+              borderRadius: 99,
               color: status.color,
               background: status.bg,
               border: `1px solid ${status.border}`,
@@ -101,32 +90,23 @@ export default async function ProjectPage({ params }: Props) {
           >
             {project.status}
           </span>
-          <span className="text-xs font-mono" style={{ color: "#4a5878" }}>
-            Role: {project.role}
-          </span>
+          <span style={{ fontSize: "0.72rem", color: "#9AA7C2" }}>Role: {project.role}</span>
         </div>
       </div>
 
       {/* Cover */}
       <div className="max-w-4xl mx-auto px-6 mb-16">
         <div
-          className="relative w-full h-64 sm:h-72 rounded-2xl overflow-hidden flex items-center justify-center"
+          className="glass-card"
           style={{
-            background: "linear-gradient(155deg, #101a35 0%, #0b1226 100%)",
-            border: "1px solid #1e2b4a",
+            width: "100%",
+            height: 240,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse at 50% 50%, rgba(77,141,255,0.08) 0%, transparent 65%)",
-            }}
-          />
-          <span
-            className="relative font-mono text-xs tracking-[0.25em] uppercase"
-            style={{ color: "rgba(77,141,255,0.3)" }}
-          >
+          <span style={{ fontSize: "0.72rem", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(77,141,255,0.3)" }}>
             {project.category}
           </span>
         </div>
@@ -139,89 +119,51 @@ export default async function ProjectPage({ params }: Props) {
           <div className="space-y-10 min-w-0">
             {sections.map(({ label, content }) => (
               <div key={label}>
-                <h2
-                  className="font-semibold text-base mb-3"
-                  style={{ color: "#f5f7ff" }}
-                >
+                <h2 style={{ fontWeight: 500, fontSize: "1rem", color: "#F5F7FF", marginBottom: 12 }}>
                   {label}
                 </h2>
-                <hr className="hr-accent mb-4" />
-                <p
-                  className="leading-relaxed text-[0.95rem]"
-                  style={{ color: "#9aa7c2" }}
-                >
-                  {content}
-                </p>
+                <hr className="hr-accent" style={{ marginBottom: 16 }} />
+                <p style={{ lineHeight: 1.7, fontSize: "0.95rem", color: "#9AA7C2" }}>{content}</p>
               </div>
             ))}
           </div>
 
           {/* Sidebar */}
           <aside className="space-y-4">
-            {/* Quick facts */}
-            <div
-              className="rounded-2xl p-5"
-              style={{ background: "#101a35", border: "1px solid #1e2b4a" }}
-            >
-              <p
-                className="font-mono text-[0.6rem] uppercase tracking-widest mb-4"
-                style={{ color: "#4a5878" }}
-              >
+            <div className="glass-card" style={{ padding: 20 }}>
+              <p style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.2em", color: "#9AA7C2", marginBottom: 16 }}>
                 Quick Facts
               </p>
               <div className="space-y-3">
                 {(
                   [
-                    ["Year", project.year],
-                    ["Status", project.status],
-                    ["Role", project.role],
+                    ["Year",     project.year],
+                    ["Status",   project.status],
+                    ["Role",     project.role],
                     ["Category", project.category],
                   ] as [string, string][]
                 ).map(([key, val]) => (
                   <div key={key}>
-                    <p
-                      className="text-[0.6rem] font-mono uppercase tracking-wider"
-                      style={{ color: "#4a5878" }}
-                    >
-                      {key}
-                    </p>
-                    <p className="text-sm mt-0.5" style={{ color: "#f5f7ff" }}>
-                      {val}
-                    </p>
+                    <p style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.15em", color: "#9AA7C2" }}>{key}</p>
+                    <p style={{ fontSize: "0.875rem", color: "#F5F7FF", marginTop: 2 }}>{val}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Tech stack */}
-            <div
-              className="rounded-2xl p-5"
-              style={{ background: "#101a35", border: "1px solid #1e2b4a" }}
-            >
-              <p
-                className="font-mono text-[0.6rem] uppercase tracking-widest mb-4"
-                style={{ color: "#4a5878" }}
-              >
+            <div className="glass-card" style={{ padding: 20 }}>
+              <p style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.2em", color: "#9AA7C2", marginBottom: 16 }}>
                 Tech Stack
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {project.tags.map((tag) => (
-                  <span key={tag} className="tech-tag-accent">
-                    {tag}
-                  </span>
+                  <span key={tag} className="tech-tag-accent">{tag}</span>
                 ))}
               </div>
             </div>
 
-            {/* More projects */}
-            <div
-              className="rounded-2xl p-5"
-              style={{ background: "#101a35", border: "1px solid #1e2b4a" }}
-            >
-              <p
-                className="font-mono text-[0.6rem] uppercase tracking-widest mb-4"
-                style={{ color: "#4a5878" }}
-              >
+            <div className="glass-card" style={{ padding: 20 }}>
+              <p style={{ fontSize: "0.6rem", textTransform: "uppercase", letterSpacing: "0.2em", color: "#9AA7C2", marginBottom: 16 }}>
                 More Projects
               </p>
               <div className="space-y-1">
@@ -232,8 +174,8 @@ export default async function ProjectPage({ params }: Props) {
                     <Link
                       key={p.slug}
                       href={`/projects/${p.slug}`}
-                      className="block text-xs py-2 transition-colors duration-200 text-[#9aa7c2] hover:text-[#f5f7ff]"
-                      style={{ borderBottom: "1px solid #1e2b4a" }}
+                      className="block text-xs py-2 transition-colors duration-200"
+                      style={{ color: "#9AA7C2", borderBottom: "1px solid #1E2B4A" }}
                     >
                       {p.title}
                     </Link>

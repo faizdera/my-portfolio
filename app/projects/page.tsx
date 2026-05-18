@@ -8,12 +8,10 @@ export default function ProjectsPage() {
   const [active, setActive] = useState<Category>("All");
 
   const filtered =
-    active === "All"
-      ? projects
-      : projects.filter((p) => p.category === active);
+    active === "All" ? projects : projects.filter((p) => p.category === active);
 
   return (
-    <div className="min-h-screen pt-32 pb-24" style={{ background: "#050816" }}>
+    <div className="min-h-screen pt-32 pb-24" style={{ background: "transparent" }}>
       <div className="max-w-6xl mx-auto px-6">
         {/* Page header */}
         <motion.div
@@ -22,24 +20,19 @@ export default function ProjectsPage() {
           transition={{ duration: 0.6 }}
           className="mb-14"
         >
-          <p
-            className="font-mono text-[0.65rem] uppercase tracking-[0.2em] mb-3"
-            style={{ color: "#4d8dff" }}
-          >
-            Portfolio
-          </p>
+          <div className="section-label">SELECTED WORK</div>
           <h1
-            className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight"
-            style={{ color: "#f5f7ff" }}
+            style={{
+              fontSize: "clamp(2.5rem, 5vw, 4rem)",
+              fontWeight: 500,
+              color: "#F5F7FF",
+              marginBottom: 16,
+            }}
           >
-            Projects
+            Projects.
           </h1>
-          <p
-            className="leading-relaxed max-w-lg text-[0.95rem]"
-            style={{ color: "#9aa7c2" }}
-          >
-            Engineering work — each project an honest attempt to understand
-            something difficult.
+          <p style={{ color: "#9AA7C2", maxWidth: 480, lineHeight: 1.6, fontSize: "0.95rem" }}>
+            Engineering work — each project an honest attempt to understand something difficult.
           </p>
         </motion.div>
 
@@ -49,18 +42,18 @@ export default function ProjectsPage() {
             <button
               key={cat}
               onClick={() => setActive(cat)}
-              className="px-4 py-1.5 text-xs rounded-full border transition-all duration-200 font-mono"
+              className="px-4 py-1.5 text-xs rounded-full border transition-all duration-200"
               style={
                 active === cat
                   ? {
-                      color: "#4d8dff",
+                      color: "#4D8DFF",
                       background: "rgba(77,141,255,0.08)",
                       border: "1px solid rgba(77,141,255,0.3)",
                     }
                   : {
-                      color: "#4a5878",
+                      color: "#9AA7C2",
                       background: "transparent",
-                      border: "1px solid #1e2b4a",
+                      border: "1px solid #1E2B4A",
                     }
               }
             >
@@ -88,10 +81,7 @@ export default function ProjectsPage() {
         </AnimatePresence>
 
         {filtered.length === 0 && (
-          <div
-            className="py-16 text-center font-mono text-sm"
-            style={{ color: "#4a5878" }}
-          >
+          <div className="py-16 text-center text-sm" style={{ color: "#9AA7C2" }}>
             No projects in this category.
           </div>
         )}

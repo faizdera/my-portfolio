@@ -5,43 +5,48 @@ export interface Experience {
   period: string;
   type: "Research" | "Team" | "Internship" | "Teaching";
   description: string;
+  typeColor?: "blue" | "ember";
 }
 
 export const experiences: Experience[] = [
   {
     id: "1",
+    type: "Research",
     role: "Research Assistant",
     org: "Aerodynamics Lab, ITB",
-    period: "2024 – Present",
-    type: "Research",
+    period: "2024 — PRESENT",
     description:
-      "Supporting CFD research on low-Reynolds number airfoil flows and Lattice Boltzmann Method solver development.",
+      "Computational studies of low-Re airfoil performance using OpenFOAM and custom LBM solvers.",
+    typeColor: "blue",
   },
   {
     id: "2",
+    type: "Team",
     role: "UAV Team Member",
     org: "ITB Aerospace Team",
-    period: "2023 – 2024",
-    type: "Team",
+    period: "2023 — 2024",
     description:
-      "Contributed to aerodynamic design, structural analysis, and flight testing for competition UAV.",
+      "Aerodynamic sizing, CFD validation, and integration support for fixed-wing platforms.",
+    typeColor: "blue",
   },
   {
     id: "3",
+    type: "Internship",
     role: "Engineering Intern",
     org: "Aerospace Company",
     period: "2023",
-    type: "Internship",
     description:
-      "Supported engineering analysis and technical documentation in an aerospace-adjacent environment.",
+      "Worked on structural analysis pipelines and surrogate modeling for fatigue prediction.",
+    typeColor: "ember",
   },
   {
     id: "4",
+    type: "Teaching",
     role: "Teaching Assistant",
     org: "Fluid Mechanics, ITB",
     period: "2024",
-    type: "Teaching",
     description:
-      "Assisted in laboratory sessions and grading for the undergraduate Fluid Mechanics course.",
+      "Led problem-solving sessions for ~40 sophomore students on incompressible flow fundamentals.",
+    typeColor: "blue",
   },
 ];

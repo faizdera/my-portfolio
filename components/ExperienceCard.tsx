@@ -2,18 +2,66 @@
 import { motion } from "framer-motion";
 import { Experience } from "@/data/experience";
 
-const TYPE_COLORS: Record<string, { color: string; bg: string; border: string }> = {
-  Research:   { color: "#4d8dff", bg: "rgba(77,141,255,0.08)",  border: "rgba(77,141,255,0.22)"  },
-  Team:       { color: "#34d399", bg: "rgba(52,211,153,0.08)",  border: "rgba(52,211,153,0.22)"  },
-  Internship: { color: "#fbbf24", bg: "rgba(251,191,36,0.08)",  border: "rgba(251,191,36,0.22)"  },
-  Teaching:   { color: "#a78bfa", bg: "rgba(167,139,250,0.08)", border: "rgba(167,139,250,0.22)" },
+const TYPE_STYLES: Record<string, { color: string; bg: string; border: string; iconBg: string; iconBorder: string }> = {
+  Research:   {
+    color: "#4D8DFF", bg: "rgba(77,141,255,0.1)",  border: "rgba(77,141,255,0.25)",
+    iconBg: "rgba(77,141,255,0.1)", iconBorder: "rgba(77,141,255,0.15)",
+  },
+  Team:       {
+    color: "#4D8DFF", bg: "rgba(77,141,255,0.1)",  border: "rgba(77,141,255,0.25)",
+    iconBg: "rgba(77,141,255,0.1)", iconBorder: "rgba(77,141,255,0.15)",
+  },
+  Internship: {
+    color: "#FF8A4C", bg: "rgba(255,138,76,0.1)",  border: "rgba(255,138,76,0.25)",
+    iconBg: "rgba(255,138,76,0.1)", iconBorder: "rgba(255,138,76,0.2)",
+  },
+  Teaching:   {
+    color: "#4D8DFF", bg: "rgba(77,141,255,0.1)",  border: "rgba(77,141,255,0.25)",
+    iconBg: "rgba(77,141,255,0.1)", iconBorder: "rgba(77,141,255,0.15)",
+  },
 };
 
-const INITIAL_COLORS: Record<string, string> = {
-  Research:   "#4d8dff",
-  Team:       "#34d399",
-  Internship: "#fbbf24",
-  Teaching:   "#a78bfa",
+function IconResearch({ color }: { color: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <circle cx="11" cy="11" r="6" stroke={color} strokeWidth="1.5" />
+      <line x1="15.5" y1="15.5" x2="20" y2="20" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconTeam({ color }: { color: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="8" r="3.5" stroke={color} strokeWidth="1.5" />
+      <path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconInternship({ color }: { color: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="7" width="18" height="13" rx="2" stroke={color} strokeWidth="1.5" />
+      <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke={color} strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function IconTeaching({ color }: { color: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M12 3L2 8l10 5 10-5-10-5z" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M6 10.5V16c0 1.657 2.686 3 6 3s6-1.343 6-3v-5.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+const ICONS: Record<string, React.FC<{ color: string }>> = {
+  Research: IconResearch,
+  Team: IconTeam,
+  Internship: IconInternship,
+  Teaching: IconTeaching,
 };
 
 interface Props {
@@ -22,8 +70,9 @@ interface Props {
 }
 
 export default function ExperienceCard({ experience, index = 0 }: Props) {
-  const typeStyle = TYPE_COLORS[experience.type];
-  const initColor = INITIAL_COLORS[experience.type] ?? "#4d8dff";
+  const style = TYPE_STYLES[experience.type] ?? TYPE_STYLES["Research"];
+  const isEmber = experience.type === "Internship";
+  const Icon = ICONS[experience.type] ?? IconTeam;
 
   return (
     <motion.div
@@ -31,64 +80,92 @@ export default function ExperienceCard({ experience, index = 0 }: Props) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="flex-shrink-0"
-      style={{ width: 300 }}
+      style={{ flexShrink: 0, width: 280 }}
     >
-      <div
-        className="card-glow overflow-hidden rounded-2xl flex flex-col"
-        style={{
-          height: 340,
-          background: "#0b1226",
-          border: "1px solid #1e2b4a",
-        }}
-      >
-        {/* Top area — 45% */}
+      <div className={`glass-card${isEmber ? " ember-accent" : ""} flex flex-col`} style={{ height: 340 }}>
+        {/* TODO: Replace with <Image> when org photo is provided */}
+        {/* Top icon area */}
         <div
-          className="flex-shrink-0 flex items-center justify-center"
-          style={{ height: 153, background: "#101a35" }}
+          style={{
+            height: 136,
+            background: "#101A35",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            borderRadius: "16px 16px 0 0",
+            flexShrink: 0,
+            overflow: "hidden",
+          }}
         >
+          {isEmber && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                width: 70,
+                height: 70,
+                background: "radial-gradient(circle at 100% 100%, rgba(255,138,76,0.2) 0%, transparent 70%)",
+                pointerEvents: "none",
+              }}
+            />
+          )}
           <div
-            className="flex items-center justify-center w-16 h-16 rounded-2xl text-2xl font-bold select-none"
             style={{
-              color: initColor,
-              background: `rgba(${initColor === "#4d8dff" ? "77,141,255" : initColor === "#34d399" ? "52,211,153" : initColor === "#fbbf24" ? "251,191,36" : "167,139,250"},0.10)`,
-              border: `1px solid ${typeStyle.border}`,
+              width: 52,
+              height: 52,
+              borderRadius: 12,
+              background: style.iconBg,
+              border: `1px solid ${style.iconBorder}`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            {experience.org[0].toUpperCase()}
+            <Icon color={style.color} />
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col justify-between p-5">
+        <div className="flex flex-col flex-1" style={{ padding: 20 }}>
           <div>
             <span
-              className="inline-block text-[0.68rem] font-mono px-2.5 py-0.5 rounded-full mb-3"
               style={{
-                color: typeStyle.color,
-                background: typeStyle.bg,
-                border: `1px solid ${typeStyle.border}`,
+                display: "inline-block",
+                fontSize: "0.65rem",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                padding: "4px 12px",
+                borderRadius: 99,
+                background: style.bg,
+                border: `1px solid ${style.border}`,
+                color: style.color,
+                marginBottom: 8,
               }}
             >
-              {experience.type}
+              {experience.type.toUpperCase()}
             </span>
-            <h3
-              className="font-semibold text-[0.95rem] leading-snug mb-1"
-              style={{ color: "#f5f7ff" }}
-            >
+            <h3 style={{ fontWeight: 500, fontSize: "1.05rem", color: "#F5F7FF", marginTop: 2, lineHeight: 1.3 }}>
               {experience.role}
             </h3>
-            <p className="text-sm" style={{ color: "#9aa7c2" }}>
-              {experience.org}
+            <p style={{ color: "#9AA7C2", fontSize: "0.85rem", marginTop: 2 }}>{experience.org}</p>
+            <p style={{ color: "#9AA7C2", fontSize: "0.8rem", marginTop: 12, lineHeight: 1.5 }}>
+              {experience.description}
             </p>
           </div>
 
-          <p
-            className="font-mono text-xs mt-3"
-            style={{ color: "#4a5878" }}
+          <div
+            style={{
+              marginTop: "auto",
+              paddingTop: 16,
+              borderTop: "1px dashed #1E2B4A",
+            }}
           >
-            {experience.period}
-          </p>
+            <p style={{ color: "#9AA7C2", fontSize: "0.75rem", letterSpacing: "0.1em" }}>
+              {experience.period}
+            </p>
+          </div>
         </div>
       </div>
     </motion.div>

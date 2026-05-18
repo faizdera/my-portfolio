@@ -1,8 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-mono), "JetBrains Mono", monospace;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+@keyframes emberPulse {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.24; }
+}
+@keyframes orbitTick {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes statusBreath {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 4px rgba(255,138,76,0.4); }
+  50% { transform: scale(1.15); box-shadow: 0 0 10px rgba(255,138,76,0.8); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes ctaShimmer {
+  0%, 90%, 100% { background-position: -200% center; }
+  45% { background-position: 200% center; }
+}
+@keyframes horizonDrift {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
 }
 
 * {
@@ -18,104 +46,144 @@ html {
 
 body {
   background: #050816;
-  color: #f5f7ff;
-  font-family: var(--font-inter), system-ui, sans-serif;
+  color: #F5F7FF;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
   overflow-x: hidden;
 }
 
+::selection { background: rgba(77,141,255,0.3); color: #fff; }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #050816; }
-::-webkit-scrollbar-thumb {
-  background: rgba(77, 141, 255, 0.25);
-  border-radius: 99px;
-}
-::-webkit-scrollbar-thumb:hover { background: rgba(77, 141, 255, 0.45); }
+::-webkit-scrollbar-thumb { background: #1E2B4A; border-radius: 99px; }
 
-::selection { background: rgba(77, 141, 255, 0.2); color: #fff; }
-
-/* ── Scrollbar hide utility ── */
 .scrollbar-hide { scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
-/* ── Orbital ring rotation ── */
-@keyframes orbit {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+.glass-card {
+  background: linear-gradient(135deg, rgba(16,26,53,0.9) 0%, rgba(11,18,38,0.95) 100%);
+  border: 1px solid #1E2B4A;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-/* ── Ambient glow pulse ── */
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.5; }
-  50%       { opacity: 1; }
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  pointer-events: none;
 }
-
-/* ── Gradient text ── */
-.gradient-text {
-  background: linear-gradient(135deg, #f5f7ff 0%, #4d8dff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── Card hover glow (handles box-shadow which Tailwind v4 can't easily do with group-hover) ── */
-.card-glow {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-.card-glow:hover {
+.glass-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 0 30px rgba(77, 141, 255, 0.18), 0 12px 40px rgba(0, 0, 0, 0.5);
-  border-color: #4d8dff !important;
+  border-color: #4D8DFF;
+  box-shadow: 0 0 30px rgba(77,141,255,0.15), 0 20px 40px rgba(5,8,22,0.4);
+}
+.glass-card.ember-accent:hover {
+  border-color: #FF8A4C;
+  box-shadow: 0 0 30px rgba(255,138,76,0.15), 0 20px 40px rgba(5,8,22,0.4);
 }
 
-/* ── Field pill ── */
+.cta-primary {
+  background: linear-gradient(135deg, #FF8A4C 0%, #e8733a 100%);
+  background-size: 300% auto;
+  animation: ctaShimmer 8s ease infinite;
+  color: white;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 12px 24px;
+  transition: opacity 0.2s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.cta-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.cta-secondary {
+  background: rgba(16,26,53,0.8);
+  border: 1px solid #1E2B4A;
+  color: #F5F7FF;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 12px 24px;
+  transition: border-color 0.2s, background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cta-secondary:hover { border-color: #4D8DFF; background: rgba(77,141,255,0.08); }
+
+.section-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #FF8A4C;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: #FF8A4C;
+}
+.section-label.blue {
+  color: #4D8DFF;
+}
+.section-label.blue::before {
+  background: #4D8DFF;
+}
+
 .field-pill {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 1rem;
+  padding: 6px 16px;
   border-radius: 9999px;
-  border: 1px solid #1e2b4a;
-  background: #0b1226;
-  color: #9aa7c2;
-  font-size: 0.875rem;
+  border: 1px solid #1E2B4A;
+  background: transparent;
+  color: #9AA7C2;
+  font-size: 0.8rem;
   white-space: nowrap;
   cursor: pointer;
   transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
   flex-shrink: 0;
 }
 .field-pill:hover {
-  border-color: #4d8dff;
-  color: #f5f7ff;
-  background: rgba(77, 141, 255, 0.08);
+  border-color: #4D8DFF;
+  color: #F5F7FF;
+  background: rgba(77,141,255,0.06);
 }
 
-/* ── Tech tags ── */
 .tech-tag {
   display: inline-block;
-  font-size: 0.7rem;
-  font-family: var(--font-mono), monospace;
-  padding: 0.15rem 0.55rem;
-  border-radius: 0.25rem;
-  border: 1px solid #1e2b4a;
-  color: #9aa7c2;
-  background: #0b1226;
-  letter-spacing: 0.02em;
+  font-size: 0.75rem;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  border: 1px solid #1E2B4A;
+  color: #9AA7C2;
+  background: transparent;
+}
+
+.hr-accent {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(77,141,255,0.25), transparent);
 }
 
 .tech-tag-accent {
   display: inline-block;
   font-size: 0.7rem;
-  font-family: var(--font-mono), monospace;
   padding: 0.15rem 0.55rem;
   border-radius: 0.25rem;
-  border: 1px solid rgba(77, 141, 255, 0.3);
-  color: #4d8dff;
-  background: rgba(77, 141, 255, 0.06);
+  border: 1px solid rgba(77,141,255,0.3);
+  color: #4D8DFF;
+  background: rgba(77,141,255,0.06);
   letter-spacing: 0.02em;
-}
-
-/* ── Horizontal rule accent ── */
-.hr-accent {
-  border: none;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(77, 141, 255, 0.25), transparent);
 }
