@@ -5,8 +5,12 @@
 }
 
 @keyframes emberPulse {
-  0%, 100% { opacity: 0.18; }
-  50% { opacity: 0.24; }
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+@keyframes floatDot {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); }
 }
 @keyframes orbitTick {
   from { transform: rotate(0deg); }
@@ -169,6 +173,10 @@ body {
   border: 1px solid #1E2B4A;
   color: #9AA7C2;
   background: transparent;
+  transition: box-shadow 0.2s ease;
+}
+.tech-tag:hover {
+  box-shadow: 0 0 12px rgba(77,141,255,0.2);
 }
 
 .hr-accent {

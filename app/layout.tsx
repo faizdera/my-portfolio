@@ -68,13 +68,13 @@ export default function RootLayout({
         <div
           style={{
             position: "fixed",
-            top: "-10%",
-            right: "-5%",
-            width: 600,
-            height: 600,
+            top: "-20%",
+            right: "-10%",
+            width: 700,
+            height: 700,
             background:
-              "radial-gradient(circle, rgba(255,138,76,0.22) 0%, transparent 70%)",
-            filter: "blur(8px)",
+              "radial-gradient(circle, rgba(255,138,76,0.28) 0%, rgba(255,138,76,0.10) 40%, transparent 70%)",
+            filter: "blur(60px)",
             pointerEvents: "none",
             zIndex: 0,
             animation: "emberPulse 6s ease-in-out infinite",
@@ -84,13 +84,28 @@ export default function RootLayout({
         <div
           style={{
             position: "fixed",
-            bottom: "-10%",
-            left: "-5%",
-            width: 500,
-            height: 500,
+            bottom: "-15%",
+            left: "-10%",
+            width: 600,
+            height: 600,
             background:
-              "radial-gradient(circle, rgba(77,141,255,0.20) 0%, transparent 70%)",
-            filter: "blur(8px)",
+              "radial-gradient(circle, rgba(77,141,255,0.25) 0%, rgba(77,141,255,0.08) 40%, transparent 70%)",
+            filter: "blur(60px)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+        {/* Mid blue — center right, subtle */}
+        <div
+          style={{
+            position: "fixed",
+            top: "40%",
+            right: "5%",
+            width: 400,
+            height: 400,
+            background:
+              "radial-gradient(circle, rgba(77,141,255,0.12) 0%, transparent 65%)",
+            filter: "blur(80px)",
             pointerEvents: "none",
             zIndex: 0,
           }}

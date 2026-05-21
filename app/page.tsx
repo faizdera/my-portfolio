@@ -6,19 +6,6 @@ import FadeInSection from "@/components/FadeInSection";
 import Link from "next/link";
 import { projects } from "@/data/project";
 import { experiences } from "@/data/experience";
-import { useRef } from "react";
-
-const fields = [
-  "Computational Fluid Dynamics",
-  "Fluid Mechanics",
-  "Machine Learning",
-  "UAV Systems",
-  "Structural Analysis",
-  "Renewable Energy",
-  "Aerodynamics",
-  "Hypersonics",
-  "Experimental Methods",
-];
 
 const skills = ["OpenFOAM", "Python", "MATLAB", "TensorFlow", "SolidWorks", "C++"];
 
@@ -30,72 +17,15 @@ const aboutInfo = [
 ];
 
 export default function HomePage() {
-  const marqueeRef = useRef<HTMLDivElement>(null);
-
   return (
     <>
       <Hero />
-
-      {/* ── Fields of Interest Marquee ── */}
-      <section
-        style={{
-          borderTop: "1px solid #1E2B4A",
-          borderBottom: "1px solid #1E2B4A",
-          padding: "32px 0",
-          overflow: "hidden",
-        }}
-      >
-        <div className="max-w-6xl mx-auto px-6 flex items-center gap-8">
-          {/* Static label */}
-          <span
-            style={{
-              fontSize: "0.65rem",
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "#9AA7C2",
-              flexShrink: 0,
-            }}
-          >
-            FIELDS
-          </span>
-
-          {/* Marquee */}
-          <div
-            style={{ overflow: "hidden", flex: 1 }}
-            ref={marqueeRef}
-            onMouseEnter={() => {
-              const el = marqueeRef.current?.querySelector<HTMLDivElement>(".marquee-track");
-              if (el) el.style.animationPlayState = "paused";
-            }}
-            onMouseLeave={() => {
-              const el = marqueeRef.current?.querySelector<HTMLDivElement>(".marquee-track");
-              if (el) el.style.animationPlayState = "running";
-            }}
-          >
-            <div
-              className="marquee-track"
-              style={{
-                display: "flex",
-                gap: 12,
-                animation: "marquee 30s linear infinite",
-                width: "max-content",
-              }}
-            >
-              {[...fields, ...fields].map((f, i) => (
-                <span key={i} className="field-pill">
-                  {f}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── About ── */}
       <section
         id="about"
         style={{
-          background: "#0B1226",
+          background: "rgba(11,18,38,0.3)",
           paddingTop: 96,
           paddingBottom: 96,
         }}
@@ -103,18 +33,35 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <FadeInSection className="mb-12">
             <div className="section-label blue">ABOUT ME</div>
-            <h2
-              style={{
-                fontSize: "clamp(2rem, 4vw, 3rem)",
-                fontWeight: 500,
-                color: "#F5F7FF",
-                lineHeight: 1.2,
-              }}
-            >
-              Curious by nature.
-              <br />
-              Precise by training.
-            </h2>
+            <div style={{ position: "relative" }}>
+              {/* Blue glow behind heading */}
+              <div
+                style={{
+                  position: "absolute",
+                  left: -50,
+                  top: 0,
+                  width: 300,
+                  height: 200,
+                  background: "radial-gradient(circle, rgba(77,141,255,0.08) 0%, transparent 70%)",
+                  filter: "blur(30px)",
+                  zIndex: -1,
+                  pointerEvents: "none",
+                }}
+              />
+              <h2
+                style={{
+                  fontSize: "clamp(2rem, 4vw, 3rem)",
+                  fontWeight: 500,
+                  color: "#F5F7FF",
+                  lineHeight: 1.2,
+                  position: "relative",
+                }}
+              >
+                Curious by nature.
+                <br />
+                Precise by training.
+              </h2>
+            </div>
           </FadeInSection>
 
           <div className="grid md:grid-cols-[55fr_45fr] gap-12 items-start">
@@ -147,23 +94,47 @@ export default function HomePage() {
 
             {/* Right: info card */}
             <FadeInSection delay={0.16}>
-              <div
-                className="glass-card"
-                style={{ borderLeft: "3px solid #4D8DFF", borderRadius: 16, padding: 24 }}
-              >
-                {aboutInfo.map(({ label, value }, i) => (
-                  <div
-                    key={label}
-                    className="flex items-start gap-3 py-4"
-                    style={i < aboutInfo.length - 1 ? { borderBottom: "1px solid #1E2B4A" } : {}}
-                  >
-                    <span style={{ color: "#4D8DFF", marginTop: 2 }}>★</span>
-                    <div>
-                      <p style={{ fontSize: "0.72rem", color: "#9AA7C2", marginBottom: 2 }}>{label}</p>
-                      <p style={{ fontSize: "0.9rem", color: "#F5F7FF" }}>{value}</p>
+              <div style={{ position: "relative" }}>
+                {/* Ember accent bloom — top-right of card */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: -20,
+                    right: -20,
+                    width: 150,
+                    height: 150,
+                    background: "radial-gradient(circle, rgba(255,138,76,0.12) 0%, transparent 70%)",
+                    filter: "blur(20px)",
+                    pointerEvents: "none",
+                    zIndex: 0,
+                  }}
+                />
+                <div
+                  className="glass-card"
+                  style={{ borderLeft: "3px solid #4D8DFF", borderRadius: 16, padding: 24, position: "relative", zIndex: 1 }}
+                >
+                  {aboutInfo.map(({ label, value }, i) => (
+                    <div
+                      key={label}
+                      className="py-4"
+                      style={i < aboutInfo.length - 1 ? { borderBottom: "1px solid rgba(30,43,74,0.8)" } : {}}
+                    >
+                      <p
+                        style={{
+                          fontSize: "0.7rem",
+                          letterSpacing: "0.15em",
+                          textTransform: "uppercase",
+                          color: "#9AA7C2",
+                        }}
+                      >
+                        {label}
+                      </p>
+                      <p style={{ fontSize: "0.95rem", fontWeight: 500, color: "#F5F7FF", marginTop: 2 }}>
+                        {value}
+                      </p>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </FadeInSection>
           </div>
@@ -171,7 +142,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Projects ── */}
-      <section id="projects" style={{ background: "#050816", paddingTop: 96, paddingBottom: 96 }}>
+      <section id="projects" style={{ background: "rgba(5,8,22,0.2)", paddingTop: 96, paddingBottom: 96 }}>
         <div className="max-w-6xl mx-auto px-6">
           <FadeInSection>
             <div className="section-label">SELECTED WORK</div>
@@ -204,7 +175,7 @@ export default function HomePage() {
       {/* ── Experience ── */}
       <section
         id="experience"
-        style={{ background: "#0B1226", borderTop: "1px solid #1E2B4A", paddingTop: 96, paddingBottom: 96 }}
+        style={{ background: "rgba(11,18,38,0.3)", borderTop: "1px solid #1E2B4A", paddingTop: 96, paddingBottom: 96 }}
       >
         <div className="max-w-6xl mx-auto px-6">
           <FadeInSection>
@@ -215,7 +186,7 @@ export default function HomePage() {
           </FadeInSection>
 
           <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
-            <div className="flex gap-6 pb-6" style={{ width: "max-content" }}>
+            <div style={{ display: "flex", gap: 24, paddingBottom: 24, paddingTop: 8, width: "max-content" }}>
               {experiences.map((exp, i) => (
                 <ExperienceCard key={exp.id} experience={exp} index={i} />
               ))}

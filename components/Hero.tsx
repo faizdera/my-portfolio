@@ -1,7 +1,7 @@
 "use client";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 const containerVariants = {
   hidden: {},
@@ -13,7 +13,27 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
 };
 
-function Portrait({ mouseX, mouseY }: { mouseX: ReturnType<typeof useSpring>; mouseY: ReturnType<typeof useSpring> }) {
+const fields = [
+  "Computational Fluid Dynamics",
+  "Fluid Mechanics",
+  "Machine Learning",
+  "UAV Systems",
+  "Structural Analysis",
+  "Renewable Energy",
+  "Aerodynamics",
+  "Hypersonics",
+  "Experimental Methods",
+];
+
+const particles = [
+  { top: "15%", left: "8%",   color: "#4D8DFF", duration: "4s",   delay: "0s" },
+  { top: "25%", right: "12%", color: "#FF8A4C", duration: "6s",   delay: "1s" },
+  { bottom: "30%", left: "5%",  color: "#4D8DFF", duration: "5s",   delay: "2s" },
+  { top: "60%", right: "8%",  color: "#FF8A4C", duration: "7s",   delay: "0.5s" },
+  { bottom: "20%", left: "20%", color: "#4D8DFF", duration: "3.5s", delay: "1.5s" },
+];
+
+function Portrait() {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -22,14 +42,61 @@ function Portrait({ mouseX, mouseY }: { mouseX: ReturnType<typeof useSpring>; mo
       className="hidden lg:flex items-center justify-center flex-shrink-0"
       style={{ width: 420, height: 420, position: "relative" }}
     >
+      {/* Ember pulse glow behind portrait */}
+      <div
+        style={{
+          position: "absolute",
+          inset: -40,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,138,76,0.15) 0%, transparent 60%)",
+          animation: "emberPulse 6s ease-in-out infinite",
+          zIndex: -1,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Blue rim glow — left side */}
+      <div
+        style={{
+          position: "absolute",
+          left: -20,
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: 40,
+          height: 200,
+          background: "linear-gradient(transparent, rgba(77,141,255,0.3), transparent)",
+          filter: "blur(15px)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Floating particles */}
+      {particles.map((p, i) => {
+        const { color, duration, delay, ...pos } = p;
+        return (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              width: 3,
+              height: 3,
+              borderRadius: "50%",
+              background: color,
+              animation: `floatDot ${duration} ease-in-out infinite`,
+              animationDelay: delay,
+              ...pos,
+            }}
+          />
+        );
+      })}
+
       {/* Outer static ring */}
-      <motion.div
+      <div
         style={{
           position: "absolute",
           inset: -30,
           border: "1.5px solid rgba(77,141,255,0.25)",
           borderRadius: "50%",
-          x: useSpring(useMotionValue(0), { stiffness: 80, damping: 20 }),
         }}
       />
 
@@ -44,16 +111,8 @@ function Portrait({ mouseX, mouseY }: { mouseX: ReturnType<typeof useSpring>; mo
         }}
       />
 
-      {/* Portrait circle with mouse parallax */}
-      <motion.div
-        style={{
-          position: "relative",
-          width: 340,
-          height: 340,
-          x: mouseX,
-          y: mouseY,
-        }}
-      >
+      {/* Portrait circle */}
+      <div style={{ position: "relative", width: 340, height: 340 }}>
         {/* Circle backdrop */}
         <div
           style={{
@@ -150,35 +209,16 @@ function Portrait({ mouseX, mouseY }: { mouseX: ReturnType<typeof useSpring>; mo
             boxShadow: "0 0 8px rgba(255,138,76,0.8)",
           }}
         />
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
 
 export default function Hero() {
-  const rawX = useMotionValue(0);
-  const rawY = useMotionValue(0);
-  const mouseX = useSpring(rawX, { stiffness: 60, damping: 20 });
-  const mouseY = useSpring(rawY, { stiffness: 60, damping: 20 });
-
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
-      const rect = sectionRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      rawX.set((e.clientX - cx) * 0.06);
-      rawY.set((e.clientY - cy) * 0.06);
-    };
-    window.addEventListener("mousemove", handleMove);
-    return () => window.removeEventListener("mousemove", handleMove);
-  }, [rawX, rawY]);
+  const marqueeRef = useRef<HTMLDivElement>(null);
 
   return (
     <section
-      ref={sectionRef}
       className="relative min-h-screen flex flex-col overflow-hidden"
       style={{ background: "transparent" }}
     >
@@ -283,7 +323,60 @@ export default function Hero() {
         </motion.div>
 
         {/* Right column: Portrait */}
-        <Portrait mouseX={mouseX} mouseY={mouseY} />
+        <Portrait />
+      </div>
+
+      {/* Fields Marquee — bottom of hero, above bottom bar */}
+      <div
+        style={{
+          borderTop: "1px solid rgba(30,43,74,0.6)",
+          padding: "16px 0",
+          position: "relative",
+          zIndex: 10,
+          overflow: "hidden",
+        }}
+      >
+        <div className="max-w-6xl mx-auto px-6 flex items-center gap-8">
+          <span
+            style={{
+              fontSize: "0.65rem",
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "#9AA7C2",
+              flexShrink: 0,
+            }}
+          >
+            FIELDS
+          </span>
+          <div
+            style={{ overflow: "hidden", flex: 1 }}
+            ref={marqueeRef}
+            onMouseEnter={() => {
+              const el = marqueeRef.current?.querySelector<HTMLDivElement>(".marquee-track");
+              if (el) el.style.animationPlayState = "paused";
+            }}
+            onMouseLeave={() => {
+              const el = marqueeRef.current?.querySelector<HTMLDivElement>(".marquee-track");
+              if (el) el.style.animationPlayState = "running";
+            }}
+          >
+            <div
+              className="marquee-track"
+              style={{
+                display: "flex",
+                gap: 12,
+                animation: "marquee 30s linear infinite",
+                width: "max-content",
+              }}
+            >
+              {[...fields, ...fields].map((f, i) => (
+                <span key={i} className="field-pill">
+                  {f}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Bottom bar */}

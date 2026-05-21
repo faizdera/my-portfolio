@@ -2,22 +2,29 @@
 import { motion } from "framer-motion";
 import { Experience } from "@/data/experience";
 
-const TYPE_STYLES: Record<string, { color: string; bg: string; border: string; iconBg: string; iconBorder: string }> = {
-  Research:   {
-    color: "#4D8DFF", bg: "rgba(77,141,255,0.1)",  border: "rgba(77,141,255,0.25)",
-    iconBg: "rgba(77,141,255,0.1)", iconBorder: "rgba(77,141,255,0.15)",
+const TYPE_STYLES: Record<string, {
+  color: string; bg: string; border: string;
+  iconBg: string; iconBorder: string; topBg: string;
+}> = {
+  Research: {
+    color: "#4D8DFF", bg: "rgba(77,141,255,0.1)", border: "rgba(77,141,255,0.25)",
+    iconBg: "rgba(77,141,255,0.12)", iconBorder: "rgba(77,141,255,0.2)",
+    topBg: "linear-gradient(135deg, #0d1a3a 0%, #111e40 100%)",
   },
-  Team:       {
-    color: "#4D8DFF", bg: "rgba(77,141,255,0.1)",  border: "rgba(77,141,255,0.25)",
-    iconBg: "rgba(77,141,255,0.1)", iconBorder: "rgba(77,141,255,0.15)",
+  Team: {
+    color: "#4D8DFF", bg: "rgba(77,141,255,0.1)", border: "rgba(77,141,255,0.25)",
+    iconBg: "rgba(77,141,255,0.12)", iconBorder: "rgba(77,141,255,0.2)",
+    topBg: "linear-gradient(135deg, #0d1a3a 0%, #111e40 100%)",
   },
   Internship: {
-    color: "#FF8A4C", bg: "rgba(255,138,76,0.1)",  border: "rgba(255,138,76,0.25)",
-    iconBg: "rgba(255,138,76,0.1)", iconBorder: "rgba(255,138,76,0.2)",
+    color: "#FF8A4C", bg: "rgba(255,138,76,0.1)", border: "rgba(255,138,76,0.25)",
+    iconBg: "rgba(255,138,76,0.12)", iconBorder: "rgba(255,138,76,0.2)",
+    topBg: "linear-gradient(135deg, #1a0d08 0%, #2a1510 100%)",
   },
-  Teaching:   {
-    color: "#4D8DFF", bg: "rgba(77,141,255,0.1)",  border: "rgba(77,141,255,0.25)",
-    iconBg: "rgba(77,141,255,0.1)", iconBorder: "rgba(77,141,255,0.15)",
+  Teaching: {
+    color: "#4D8DFF", bg: "rgba(77,141,255,0.1)", border: "rgba(77,141,255,0.25)",
+    iconBg: "rgba(77,141,255,0.12)", iconBorder: "rgba(77,141,255,0.2)",
+    topBg: "linear-gradient(135deg, #0d1a3a 0%, #111e40 100%)",
   },
 };
 
@@ -80,15 +87,15 @@ export default function ExperienceCard({ experience, index = 0 }: Props) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      style={{ flexShrink: 0, width: 280 }}
+      style={{ flexShrink: 0, width: 300 }}
     >
-      <div className={`glass-card${isEmber ? " ember-accent" : ""} flex flex-col`} style={{ height: 340 }}>
-        {/* TODO: Replace with <Image> when org photo is provided */}
-        {/* Top icon area */}
+      <div className={`glass-card${isEmber ? " ember-accent" : ""} flex flex-col`} style={{ height: 380 }}>
+        {/* TODO: Replace bg gradient with <Image> org logo when photo provided */}
+        {/* Top image area */}
         <div
           style={{
-            height: 136,
-            background: "#101A35",
+            height: 210,
+            background: style.topBg,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -98,37 +105,59 @@ export default function ExperienceCard({ experience, index = 0 }: Props) {
             overflow: "hidden",
           }}
         >
+          {/* Internship corner bloom — top-right */}
           {isEmber && (
             <div
               style={{
                 position: "absolute",
-                bottom: 0,
-                right: 0,
-                width: 70,
-                height: 70,
-                background: "radial-gradient(circle at 100% 100%, rgba(255,138,76,0.2) 0%, transparent 70%)",
+                top: -10,
+                right: -10,
+                width: 100,
+                height: 100,
+                background: "radial-gradient(circle, rgba(255,138,76,0.2) 0%, transparent 70%)",
+                filter: "blur(15px)",
                 pointerEvents: "none",
               }}
             />
           )}
+
+          {/* Icon placeholder box */}
           <div
             style={{
               width: 52,
               height: 52,
-              borderRadius: 12,
+              borderRadius: 10,
               background: style.iconBg,
               border: `1px solid ${style.iconBorder}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              position: "relative",
+              zIndex: 1,
             }}
           >
             <Icon color={style.color} />
           </div>
+
+          {/* Org name — bottom-right label */}
+          <span
+            style={{
+              position: "absolute",
+              bottom: 10,
+              right: 14,
+              fontFamily: "monospace",
+              fontSize: 9,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "rgba(154,167,194,0.5)",
+            }}
+          >
+            {experience.org}
+          </span>
         </div>
 
-        {/* Content */}
-        <div className="flex flex-col flex-1" style={{ padding: 20 }}>
+        {/* Bottom content area */}
+        <div className="flex flex-col flex-1" style={{ padding: "16px 20px" }}>
           <div>
             <span
               style={{
@@ -141,16 +170,18 @@ export default function ExperienceCard({ experience, index = 0 }: Props) {
                 background: style.bg,
                 border: `1px solid ${style.border}`,
                 color: style.color,
-                marginBottom: 8,
               }}
             >
               {experience.type.toUpperCase()}
             </span>
-            <h3 style={{ fontWeight: 500, fontSize: "1.05rem", color: "#F5F7FF", marginTop: 2, lineHeight: 1.3 }}>
+            <h3 style={{ fontWeight: 500, fontSize: "1rem", color: "#F5F7FF", marginTop: 8, lineHeight: 1.3 }}>
               {experience.role}
             </h3>
-            <p style={{ color: "#9AA7C2", fontSize: "0.85rem", marginTop: 2 }}>{experience.org}</p>
-            <p style={{ color: "#9AA7C2", fontSize: "0.8rem", marginTop: 12, lineHeight: 1.5 }}>
+            <p style={{ color: "#9AA7C2", fontSize: "0.82rem", marginTop: 3 }}>{experience.org}</p>
+            <p
+              className="line-clamp-2"
+              style={{ color: "#9AA7C2", fontSize: "0.78rem", marginTop: 10, lineHeight: 1.55 }}
+            >
               {experience.description}
             </p>
           </div>
@@ -158,11 +189,11 @@ export default function ExperienceCard({ experience, index = 0 }: Props) {
           <div
             style={{
               marginTop: "auto",
-              paddingTop: 16,
-              borderTop: "1px dashed #1E2B4A",
+              paddingTop: 12,
+              borderTop: "1px dashed rgba(30,43,74,1)",
             }}
           >
-            <p style={{ color: "#9AA7C2", fontSize: "0.75rem", letterSpacing: "0.1em" }}>
+            <p style={{ color: "#9AA7C2", fontSize: "0.72rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>
               {experience.period}
             </p>
           </div>
