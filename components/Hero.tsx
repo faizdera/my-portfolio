@@ -223,7 +223,7 @@ export default function Hero() {
       style={{ background: "transparent" }}
     >
       {/* Main content row */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full flex items-center justify-between gap-12 py-28">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full flex items-center justify-between gap-12 pt-28 pb-4">
         {/* Left column */}
         <motion.div
           className="flex-1 max-w-xl"
