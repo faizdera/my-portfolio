@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -113,17 +114,23 @@ function Portrait() {
 
       {/* Portrait circle */}
       <div style={{ position: "relative", width: 340, height: 340 }}>
-        {/* Circle backdrop */}
+        {/* Portrait circle */}
         <div
           style={{
             width: 340,
             height: 340,
             borderRadius: "50%",
-            background: "radial-gradient(circle at 40% 30%, #d4c5a9 0%, #b8a88a 60%, #8a7a6a 100%)",
             position: "relative",
             overflow: "hidden",
           }}
         >
+          <Image
+            src="/images/profile.jpg"
+            alt="Faiz Deri Rahman"
+            fill
+            style={{ objectFit: "cover", objectPosition: "center top" }}
+            priority
+          />
           {/* Glass highlight arc */}
           <div
             style={{
@@ -136,62 +143,7 @@ function Portrait() {
               borderRadius: "50%",
               filter: "blur(4px)",
               transform: "rotate(-20deg)",
-            }}
-          />
-
-          {/* Head */}
-          <div
-            style={{
-              position: "absolute",
-              width: 90,
-              height: 90,
-              borderRadius: "50%",
-              background: "radial-gradient(circle at 35% 30%, #e8c49a 0%, #c49a6a 70%, #a07840 100%)",
-              top: 72,
-              left: "50%",
-              transform: "translateX(-50%)",
-              boxShadow: "4px 4px 12px rgba(255,138,76,0.15)",
-            }}
-          >
-            {/* Hair */}
-            <div
-              style={{
-                position: "absolute",
-                top: -6,
-                left: "10%",
-                width: "80%",
-                height: "45%",
-                background: "#1a0f05",
-                borderRadius: "50% 50% 0 0",
-              }}
-            />
-          </div>
-
-          {/* Neck */}
-          <div
-            style={{
-              position: "absolute",
-              width: 28,
-              height: 22,
-              background: "#c49a6a",
-              top: 156,
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-          />
-
-          {/* Shoulders / body */}
-          <div
-            style={{
-              position: "absolute",
-              width: 200,
-              height: 160,
-              bottom: -20,
-              left: "50%",
-              transform: "translateX(-50%)",
-              borderRadius: "50% 50% 0 0",
-              background: "linear-gradient(160deg, #2a4a3a 0%, #1a3028 100%)",
-              boxShadow: "inset -3px 0 12px rgba(77,141,255,0.3), inset 3px 0 8px rgba(255,138,76,0.1)",
+              zIndex: 1,
             }}
           />
         </div>
