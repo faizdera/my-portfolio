@@ -124,13 +124,15 @@ function Portrait() {
             overflow: "hidden",
           }}
         >
-          <Image
-            src="/images/profile.jpg"
-            alt="Faiz Deri Rahman"
-            fill
-            style={{ objectFit: "cover", objectPosition: "center top" }}
-            priority
-          />
+          <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: "50%", overflow: "hidden" }}>
+            <Image
+              src="/images/profile.jpg"
+              alt="Faiz Deri Rahman"
+              fill
+              style={{ objectFit: "cover", objectPosition: "center top" }}
+              priority
+            />
+          </div>
           {/* Glass highlight arc */}
           <div
             style={{
