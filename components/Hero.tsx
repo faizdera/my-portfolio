@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -117,22 +116,25 @@ function Portrait() {
         {/* Portrait circle */}
         <div
           style={{
-            width: 340,
-            height: 340,
-            borderRadius: "50%",
             position: "relative",
+            width: "320px",
+            height: "320px",
+            borderRadius: "50%",
             overflow: "hidden",
+            flexShrink: 0,
           }}
         >
-          <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: "50%", overflow: "hidden" }}>
-            <Image
-              src="/images/profile.jpg"
-              alt="Faiz Deri Rahman"
-              fill
-              style={{ objectFit: "cover", objectPosition: "center top" }}
-              priority
-            />
-          </div>
+          <img
+            src="/images/profile.jpg"
+            alt="Faiz Deri Rahman"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center top",
+              display: "block",
+            }}
+          />
           {/* Glass highlight arc */}
           <div
             style={{
